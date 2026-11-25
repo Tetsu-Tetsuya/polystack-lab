@@ -1,0 +1,49 @@
+// Contrato do PolyStack Lab: a única fonte da verdade entre o BFF (Node.js)
+// e o serviço de precificação (Go).
+//
+// Regras de evolução: campos novos ganham números novos; um número nunca é
+// reaproveitado (marque-o como `reserved` ao remover um campo); mudanças
+// incompatíveis vão para um pacote novo (pricing.v2).
+
+syntax = "proto3";
+
+package pricing.v1;
+
+option go_package = "polystack-lab/pricing-go/gen/pricingv1;pricingv1";
+
+service PricingService {
+  // Catálogo oficial, com os preços que valem para cobrar.
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+
+  // Recalcula o pedido com as regras e os preços oficiais.
+  rpc Quote(QuoteRequest) returns (QuoteResponse);
+}
+
+message Product {
+  string sku = 1;
+  string name = 2;
+  int64 price_cents = 3;
+  string category = 4;
+}
+
+message ListProductsRequest {}
+
+message ListProductsResponse {
+  repeated Product products = 1;
+}
+
+message Item {
+  string sku = 1;
+  int32 quantity = 2;
+}
+
+message QuoteRequest {
+  repeated Item items = 1;
+}
+
+message QuoteResponse {
+  int64 subtotal_cents = 1;
+  int64 discount_cents = 2;
+  int64 total_cents = 3;
+  repeated string applied_rules = 4;
+}

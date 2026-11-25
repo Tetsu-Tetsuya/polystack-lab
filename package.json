@@ -1,0 +1,32 @@
+{
+  "name": "polystack-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demonstração do seminário Tema 8: microfrontends (React + Vue), Rust/WASM, BFF Node.js e serviço Go via gRPC",
+  "workspaces": [
+    "apps/catalog-vue",
+    "apps/host-react",
+    "services/bff-node",
+    "bench"
+  ],
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "setup": "npm install && npm run setup:go",
+    "setup:go": "cd services/pricing-go && go mod tidy",
+    "dev": "concurrently -k -n go,bff,catalog,host -c blue,green,magenta,cyan \"npm:dev:go\" \"npm:dev:bff\" \"npm:dev:catalog\" \"npm:dev:host\"",
+    "dev:go": "cd services/pricing-go && go run -mod=mod .",
+    "dev:bff": "npm run dev -w services/bff-node",
+    "dev:catalog": "npm run dev -w apps/catalog-vue",
+    "dev:host": "npm run dev -w apps/host-react",
+    "test": "npm run test:go",
+    "test:go": "cd services/pricing-go && go test -mod=mod ./...",
+    "test:rust": "cd wasm/pricing-rs && cargo test",
+    "build:wasm": "wasm-pack build wasm/pricing-rs --release --target web --out-dir ../../apps/host-react/src/wasm",
+    "bench:serialization": "npm run bench -w bench"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}

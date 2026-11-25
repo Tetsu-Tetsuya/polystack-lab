@@ -1,0 +1,12 @@
+# Configuração do buf: lint do contrato e verificação de mudanças incompatíveis.
+#   npx buf lint
+#   npx buf breaking --against '.git#branch=main'
+version: v2
+modules:
+  - path: proto
+lint:
+  use:
+    - STANDARD
+breaking:
+  use:
+    - FILE

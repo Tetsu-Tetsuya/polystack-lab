@@ -1,0 +1,16 @@
+# Geração de código a partir de proto/ (só é preciso rodar se o .proto mudar).
+# O código gerado para Go já vem pronto em services/pricing-go/gen/pricingv1/.
+# O BFF em Node.js carrega o mesmo .proto em tempo de execução, sem geração.
+#
+# Para regenerar: npx buf generate
+# (requer protoc-gen-go e protoc-gen-go-grpc no PATH; veja o README).
+version: v2
+inputs:
+  - directory: proto
+plugins:
+  - local: protoc-gen-go
+    out: services/pricing-go
+    opt: module=polystack-lab/pricing-go
+  - local: protoc-gen-go-grpc
+    out: services/pricing-go
+    opt: module=polystack-lab/pricing-go

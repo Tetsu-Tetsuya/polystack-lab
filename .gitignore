@@ -1,0 +1,5 @@
+node_modules/
+dist/
+wasm/pricing-rs/target/
+*.log
+.DS_Store

@@ -1,0 +1,13 @@
+{
+  "name": "@polystack/bench",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Benchmark JSON × Protocol Buffers com o mesmo contrato do PolyStack Lab",
+  "type": "module",
+  "scripts": {
+    "bench": "node serialization.mjs"
+  },
+  "dependencies": {
+    "protobufjs": "^8.0.0"
+  }
+}
